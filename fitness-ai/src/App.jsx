@@ -5,6 +5,18 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [workouts, setWorkouts] = useState(
+  [
+    {
+      name: "curls",
+      reps: "3"
+    },
+    {
+      name: "bench",
+      reps: "5"
+    },
+  ]
+)
 
   return (
     <>
@@ -28,6 +40,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+
+      {workouts.map(workout => <div><p>{workout.name}</p>reps{workout.reps}</div>)}
     </>
   )
 }
