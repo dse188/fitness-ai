@@ -1,17 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-x: hidden; /* Nuclear option for overflow */
+/*
+@-webkit-keyframes moveInRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(10rem);
+            transform: translateX(10rem);
   }
-  
-  /* Reset all elements (optional) */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
+}
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(10rem);
+            transform: translateX(10rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+*/
+/*
+html {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-x: hidden;
+  font-size: 62.5%;
+  font-size: 12px;
+}
+
+@media (max-width: 1200px) {
+  html {
+    font-size: 62.5%;
+  }
+}
+
+@media (max-width: 1000px) {
+  html {
+    font-size: 56.75%;
+  }
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media (max-width: 700px) {
+  html {
+    font-size: 43.75%;
+  }
+}
+
+body {
+  min-height: 100vh;
+  background-image: url("assets/Fitness-background.jpg");
+  font-family: lato, sans-serif;
+  font-size: 1.6rem;
+  word-wrap: break-word;
+  color: #141414;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+        
+}
+*/
+/*
+.content {
+  width: 110rem;
+  height: 60rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 6rem 54rem;
+      grid-template-rows: 6rem 54rem;
+  -ms-grid-columns: 28rem 1fr;
+      grid-template-columns: 28rem 1fr;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.6);
+          box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+@media (max-width: 1500px) {
+  .content {
+    width: 100vw;
+    height: 100vh;
+    -ms-grid-rows: 6rem 1fr;
+        grid-template-rows: 6rem 1fr;
+  }
+}
+
+@media (max-width: 1000px) {
+  .content {
+    -ms-grid-columns: 26rem 1fr;
+        grid-template-columns: 26rem 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .content {
+    -ms-grid-columns: 22rem 1fr;
+        grid-template-columns: 22rem 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .content {
+    -ms-grid-columns: 20rem 1fr;
+        grid-template-columns: 20rem 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .content {
+    -ms-grid-columns: 1fr 20rem;
+        grid-template-columns: 1fr 20rem;
+  }
+}
+  */

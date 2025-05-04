@@ -1,22 +1,26 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
 import FitnessLevel from './components/Button_jsx/FitnessLevel'
-import Background from './components/Background'
-
 
 import FitnessBG from './components/FitnessBG'
+import MainContent from './components/MainContent'
+import Home from './components/Home'
 
 function App() {
   const [theme, setTheme] = useState('ai');
 
   return (
-    <div>
-      <FitnessBG />
-      <FitnessLevel />
-    </div>
+    <main>
+      <Home/>
+     
+    </main>
   );
 }
 
 export default App;
+
+/*
+<main className='min-h-screen flex flex-col bg-gradient-to-r 
+from-slate-800 to-slate-950 text-white text-sm sm:text-base'> 
+*/
