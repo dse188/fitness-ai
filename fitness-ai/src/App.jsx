@@ -5,15 +5,18 @@ import FitnessLevel from './components/Button_jsx/FitnessLevel'
 
 import FitnessBG from './components/FitnessBG'
 import MainContent from './components/MainContent'
-import Home from './components/Home'
+import Home from './components/Home_comps/Home'
+import Dashboard from './components/Dashboard'
+import Logworkout from './components/Logworkout'
+import History from './components/History'
+import Progress from './components/Progress'
 
 function App() {
   const [theme, setTheme] = useState('ai');
 
   return (
     <main>
-      <Home/>
-     
+      <Home />
     </main>
   );
 }
