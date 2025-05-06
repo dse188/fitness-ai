@@ -1,5 +1,16 @@
 import React from 'react'
 
+const FitnessCards = ({
+    fIcon,
+    fTitle,
+    fInfo
+  }) => {
+    return (
+      <div>
+      </div>
+    )
+}
+
 function MiddleHome() {
   return (
     <div className='bg-gray-50'>

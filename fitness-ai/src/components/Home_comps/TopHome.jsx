@@ -2,11 +2,11 @@ import React from 'react'
 
 function TopHome() {
   return (
-    <div className='text-white bg-gradient-to-b from-cyan-600 to-cyan-400 mt'>
+    <div className='text-white bg-gradient-to-b from-sky-500 to-cyan-400 mt '>
         <div className='navbar      font-bold flex justify-between ml-8 mr-8 pt-3'>
-            <span className=''>FitnessAI</span>
+            <span className='text-xl'>FitnessAI</span>
             <div>
-                <button className='pr-1'>Login</button>
+                <button className='pr-1 '>Login</button>
                 <button className='pl-1'>Register</button>
             </div>
         </div>
