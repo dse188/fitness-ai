@@ -8,7 +8,7 @@ function Home() {
     <div> 
       <div>
         <TopHome/>
-        <MiddleHome/>
+        <MiddleHome />
       </div>
     </div>
   )

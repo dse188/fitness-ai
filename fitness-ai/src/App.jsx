@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard'
 import Logworkout from './components/Logworkout'
 import History from './components/History'
 import Progress from './components/Progress'
+import Printer from './components/Practice/Printer'
 
 function App() {
   const [theme, setTheme] = useState('ai');
