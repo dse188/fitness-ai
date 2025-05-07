@@ -2,6 +2,7 @@ import React from 'react'
 import Dashboard from '../Dashboard'
 import TopHome from './TopHome'
 import MiddleHome from './MiddleHome'
+import BottomHome from './BottomHome'
 
 function Home() {
   return (
@@ -9,6 +10,7 @@ function Home() {
       <div>
         <TopHome/>
         <MiddleHome />
+        <BottomHome />
       </div>
     </div>
   )
