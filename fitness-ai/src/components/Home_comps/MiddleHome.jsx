@@ -26,7 +26,7 @@ const cards = [
 
 function MiddleHome() {
   return (
-    <div className='bg-gray-50'>
+    <div className=''>
         <div className='p-14'>
           <div>
             <h2 
