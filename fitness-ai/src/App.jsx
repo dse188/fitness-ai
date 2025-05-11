@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import FitnessLevel from './components/Button_jsx/FitnessLevel'
 
 import FitnessBG from './components/FitnessBG'
 import MainContent from './components/MainContent'

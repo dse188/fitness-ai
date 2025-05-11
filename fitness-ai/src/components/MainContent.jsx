@@ -1,5 +1,5 @@
 import React from 'react'
-import FitnessLevel from './Button_jsx/FitnessLevel'
+
 
 const MainContent = ({ children }) => {
   return (
