@@ -1,6 +1,21 @@
 import React from 'react'
+import {useState} from "react"
 
 function MidLog() {
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const workouts = [
+        {id: 1, title: "Bench Press"},
+        {id: 2, title: "Deadlift"},
+        {id: 3, title: "Squats"},
+    ];
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+        alert(searchQuery)
+    };
+
+
   return (
     <div className='pl-16 pr-16 pt-10'>
         <h1 className='text-black text-2xl font-bold pb-6'>Log a Workout</h1>
@@ -31,6 +46,29 @@ function MidLog() {
                 placeholder='How was your workout? Any PRs?'>
                 </textarea>
             </div>
+        </div>
+        <div className='pt-6'>
+            <div className='bg-white shadow-sm rounded-md p-6 border border-gray-200 '>
+                <h1 className='text-black text-2xl font-semibold '>Exercises</h1>
+                <p className='text-gray-500 text-sm'>Add exercises to your workout</p>
+                
+                {/*Search bar*/}
+                <form onSubmit={handleSearch} className='search-form pt-6'>
+                    <input
+                        type="text"
+                        placeholder="Search for exercises..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className='search-input w-full pt-2 pb-2 pl-4 pr-4 text-sm font-semibold bg-slate-100 rounded-md border border-gray-200
+                        focus:outline-none hover:bg-blue-500'>
+                    </input>
+                </form>
+
+                <div className='workout-card '>
+                </div>
+
+            </div>
+            
         </div>
     </div>
   )
