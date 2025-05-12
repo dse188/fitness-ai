@@ -1,5 +1,6 @@
 import React from 'react'
 import {useState} from "react"
+import Select from "react-select"
 
 function MidLog() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -58,6 +59,7 @@ function MidLog() {
                         type="text"
                         placeholder="Search for exercises..."
                         value={searchQuery}
+                        options={workouts}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className='search-input w-full pt-2 pb-2 pl-4 pr-4 text-sm font-semibold bg-slate-100 rounded-md border border-gray-200
                         focus:outline-none hover:bg-blue-500'>
