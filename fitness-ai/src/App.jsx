@@ -10,12 +10,16 @@ import History from './components/History'
 import Progress from './components/Progress'
 import Printer from './components/Practice/Printer'
 import LogWorkout from './pages/LogWorkout'
+import {Routes, Route} from "react-router-dom"
 
 function App() {
 
   return (
-    <main>
-      <LogWorkout />
+    <main className='main-content'>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/LogWorkout" element={<LogWorkout />}/>
+      </Routes>
     </main>
   );
 }

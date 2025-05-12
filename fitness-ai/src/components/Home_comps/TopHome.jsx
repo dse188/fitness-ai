@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function TopHome() {
   return (
@@ -24,8 +25,8 @@ function TopHome() {
 
             <div className='start button'>
                 <div className='text-center text-sky-400 font-semibold text-sm p-5'>
-                    <button className='pr-5 pt-2 pb-2 pl-5 border bg-white border-white-100 rounded mr-5 hover:text-black hover:bg-cyan-500'>Get Started</button>
-                    <button className='pr-5 pt-2 pb-2 pl-5 border bg-white rounded hover:text-black hover:bg-cyan-500'>Learn More</button>
+                    <Link to='/LogWorkout' className='pr-5 pt-2 pb-2 pl-5 border bg-white border-white-100 rounded-md mr-5 hover:text-black hover:bg-cyan-500'>Get Started</Link>
+                    <Link className='pr-5 pt-2 pb-2 pl-5 border bg-white rounded-md hover:text-black hover:bg-cyan-500'>Learn More</Link>
                 </div>
                 
             </div>

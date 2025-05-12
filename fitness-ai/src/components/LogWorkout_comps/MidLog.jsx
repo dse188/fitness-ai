@@ -5,9 +5,9 @@ function MidLog() {
     const [searchQuery, setSearchQuery] = useState("");
 
     const workouts = [
-        {id: 1, title: "Bench Press"},
-        {id: 2, title: "Deadlift"},
-        {id: 3, title: "Squats"},
+        {value: "bench press", title: "Bench Press"},
+        {value: "deadlift", title: "Deadlift"},
+        {value: "squats", title: "Squats"},
     ];
 
     const handleSearch = (e) => {
@@ -65,6 +65,10 @@ function MidLog() {
                 </form>
 
                 <div className='workout-card '>
+                    {workouts.map(
+                        (workout) =>
+                        workout.title.toLowerCase().startsWith(searchQuery)
+                    )}
                 </div>
 
             </div>
