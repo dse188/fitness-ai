@@ -1,9 +1,8 @@
 import React from 'react'
-import Dashboard from '../Dashboard'
-import TopHome from './TopHome'
-import MiddleHome from './MiddleHome'
-import BottomHome from './BottomHome'
-import FootHome from './FootHome'
+import TopHome from '../components/Home_comps/TopHome'
+import MiddleHome from '../components/Home_comps/MiddleHome'
+import BottomHome from '../components/Home_comps/BottomHome'
+import FootHome from '../components/Home_comps/FootHome'
 
 function Home() {
   return (

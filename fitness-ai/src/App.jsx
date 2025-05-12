@@ -4,19 +4,18 @@ import viteLogo from '/vite.svg'
 
 import FitnessBG from './components/FitnessBG'
 import MainContent from './components/MainContent'
-import Home from './components/Home_comps/Home'
-import Dashboard from './components/Dashboard'
+import Home from './pages/Home'
 import Logworkout from './components/Logworkout'
 import History from './components/History'
 import Progress from './components/Progress'
 import Printer from './components/Practice/Printer'
+import LogWorkout from './pages/LogWorkout'
 
 function App() {
-  const [theme, setTheme] = useState('ai');
 
   return (
     <main>
-      <Home />
+      <LogWorkout />
     </main>
   );
 }
