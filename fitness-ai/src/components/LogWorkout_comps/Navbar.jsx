@@ -5,9 +5,9 @@ function Navbar() {
   return (
     <div>
         <div className='p-4 bg-white shadow-sm'>
-            <div className='text-black flex justify-between '> {/* Places logo and buttons on both ends of the page */}
+            <div className='text-black grid grid-flow-col-dense justify-between '> {/* Places logo and buttons on both ends of the page */}
                 <Link to='/' className='ml-12 text-2xl font-bold text-sky-500'>FitnessAI</Link>
-                <div className='flex justify-center gap-5 text-gray-700 font-semibold pt-2'>
+                <div className='grid grid-flow-col-dense justify-center gap-5 text-gray-700 font-semibold pt-2'>
                     <Link className='hover:text-sky-500'>Dashboard</Link>
                     <Link to='/LogWorkout' className='hover:text-sky-500'>Log Workout</Link>
                     <Link className='hover:text-sky-500'>History</Link>
