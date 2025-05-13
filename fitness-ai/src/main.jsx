@@ -8,7 +8,7 @@ import SearchBarPrac from './components/Practice/SearchBarPrac.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <SearchBarPrac/>
+      <App />
     </BrowserRouter>
   </StrictMode>,
 )

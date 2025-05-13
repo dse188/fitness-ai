@@ -1,0 +1,75 @@
+import React, { useState, useEffect } from 'react'
+import { searchExerciseName } from '../../services/api'
+import { FaSearch } from 'react-icons/fa';
+
+function SearchBarExercise() {
+
+    const [data, setData] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    
+
+    useEffect(() => {
+        const fetchExercises = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const results = await searchExerciseName(searchTerm);
+                setData(results);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        // Add a small delay to avoid making too many API calls while typing
+        const debounceTimer = setTimeout(() => {
+            if (searchTerm.trim() !== '') {
+                fetchExercises();
+            } else {
+                setData([]); // Clear results when search is empty
+            }
+        }, 300);
+
+        return () => clearTimeout(debounceTimer);
+    }, [searchTerm]);
+    
+    const handleClick = (exercise) => {
+        alert(`Selected exercise: ${exercise.name}`);
+    }
+
+
+    return (
+    <div>
+        <div>
+            <input 
+                className='search-bar bg-zinc-100 w-full border rounded-md p-1 pl-4 pr-4 placeholder:text-gray-500
+                focus:outline-none  focus:bg-blue-500'
+                type="text"
+                placeholder='Search for exercise...'
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+            />
+            {isLoading && <div>Loading...</div>}
+            {error && <div className='error'>{error}</div>}
+            <div className='search-result bg-white shadow-md rounded-md'>
+                {data.map((exercise, index) => (
+                    <div 
+                        key={index} 
+                        className='individual-result p-2 hover:bg-blue-400 pl-4 text-md rounded-md'
+                        onClick={() => handleClick(exercise)}
+                    >
+                        {exercise.name}
+                        <br/><span className='text-gray-500 text-sm'>{exercise.muscle}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+    );
+}
+
+export default SearchBarExercise

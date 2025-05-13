@@ -1,6 +1,7 @@
 import React from 'react'
 import {useState} from "react"
 import Select from "react-select"
+import SearchBarExercise from './SearchBarExercise';
 
 function MidLog() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -29,7 +30,7 @@ function MidLog() {
                 <h4 className='font-semibold text-sm pb-2'>Workout Name</h4>
                 <input type="text" 
                 className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pb-2 pl-3 pr-3
-                focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2'
+                focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 placeholder:text-gray-500'
                 placeholder='e.g. Push Day, Leg Day'></input>
             </div>
             <div className='pb-5 '>
@@ -43,7 +44,7 @@ function MidLog() {
                 <textarea
                 rows="4" 
                 className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pl-3 pr-3
-                focus:outline-none focus:ring-2 focus: ring-sky-500 focus:ring-offset-2'
+                focus:outline-none focus:ring-2 focus: ring-sky-500 focus:ring-offset-2 placeholder:text-gray-500'
                 placeholder='How was your workout? Any PRs?'>
                 </textarea>
             </div>
@@ -51,27 +52,10 @@ function MidLog() {
         <div className='pt-6'>
             <div className='bg-white shadow-sm rounded-md p-6 border border-gray-200 '>
                 <h1 className='text-black text-2xl font-semibold '>Exercises</h1>
-                <p className='text-gray-500 text-sm'>Add exercises to your workout</p>
+                <p className='text-gray-500 text-sm pb-5'>Add exercises to your workout</p>
                 
                 {/*Search bar*/}
-                <form onSubmit={handleSearch} className='search-form pt-6'>
-                    <input
-                        type="text"
-                        placeholder="Search for exercises..."
-                        value={searchQuery}
-                        options={workouts}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className='search-input w-full pt-2 pb-2 pl-4 pr-4 text-sm font-semibold bg-slate-100 rounded-md border border-gray-200
-                        focus:outline-none hover:bg-blue-500'>
-                    </input>
-                </form>
-
-                <div className='workout-card '>
-                    {workouts.map(
-                        (workout) =>
-                        workout.title.toLowerCase().startsWith(searchQuery)
-                    )}
-                </div>
+                <SearchBarExercise />
 
             </div>
             
