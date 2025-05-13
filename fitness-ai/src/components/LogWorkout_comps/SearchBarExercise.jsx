@@ -47,7 +47,7 @@ function SearchBarExercise() {
         <div>
             <input 
                 className='search-bar bg-zinc-100 w-full border rounded-md p-1 pl-4 pr-4 placeholder:text-gray-500
-                focus:outline-none  focus:bg-blue-500'
+                focus:outline-none  focus:bg-blue-500 '
                 type="text"
                 placeholder='Search for exercise...'
                 value={searchTerm}
@@ -55,18 +55,24 @@ function SearchBarExercise() {
             />
             {isLoading && <div>Loading...</div>}
             {error && <div className='error'>{error}</div>}
-            <div className='search-result bg-white shadow-md rounded-md'>
-                {data.map((exercise, index) => (
-                    <div 
-                        key={index} 
-                        className='individual-result p-2 hover:bg-blue-400 pl-4 text-md rounded-md'
-                        onClick={() => handleClick(exercise)}
-                    >
-                        {exercise.name}
-                        <br/><span className='text-gray-500 text-sm'>{exercise.muscle}</span>
+            {data.length > 0 && (
+                <div className='search-result bg-white  rounded-md grid grid-cols-2 '>
+                    {/* limits the width of the search result to half the container */}
+                    <div className='shadow-md max-h-60 overflow-auto'>
+                        <h4 className='text-gray-500 text-xs font-semibold pt-2 pl-4 pr-4 '>Exercises</h4>
+                        {data.map((exercise, index) => (
+                        <div 
+                            key={index} 
+                            className='individual-result p-2 hover:bg-blue-400 pl-4 text-sm rounded-md'
+                            onClick={() => handleClick(exercise)}
+                        >
+                            {exercise.name}
+                            <br/><span className='text-gray-500 text-xs'>{exercise.muscle}</span>
+                        </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </div>
+            )}
         </div>
     </div>
     );
