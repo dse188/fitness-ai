@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { searchExerciseName } from '../../services/api'
 import { FaSearch } from 'react-icons/fa';
 
-function SearchBarExercise() {
+function SearchBarExercise({ onExerciseSelect }) {
 
     const [data, setData] = useState([])
     const [searchTerm, setSearchTerm] = useState('');
@@ -38,8 +38,9 @@ function SearchBarExercise() {
     }, [searchTerm]);
     
     const handleClick = (exercise) => {
-        
-
+        onExerciseSelect(exercise);
+        setData([]); // Clear search result after selection
+        setSearchTerm(''); // Clear search input
     }
 
 

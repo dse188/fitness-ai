@@ -13,6 +13,15 @@ function MidLog() {
         alert(searchQuery)
     };
 
+    const handleExerciseSelect = (exercise) => {
+        const newId = workout.length > 0 ? Math.max(...workout.map(w => w.id)) + 1 : 1;
+        setWorkout([...workout, {
+            id: newId,
+            name: exercise.name,
+            muscle: exercise.muscle
+        }]);
+    }
+
     const AddWorkout = () => {
         const newId = workout.length > 0 ? Math.max(...workout.map(workout => workout.id)) + 1 : 1;
         setWorkout([...workout, { id: newId }]);
@@ -60,7 +69,7 @@ function MidLog() {
                 <p className='text-gray-500 text-sm pb-5'>Add exercises to your workout</p>
                 
                 {/*Search bar*/}
-                <SearchBarExercise />
+                <SearchBarExercise onExerciseSelect={handleExerciseSelect}/>
 
                 {workout.length === 0 && (
                     <p className='text-gray-500 text-center pt-8'>
@@ -71,11 +80,12 @@ function MidLog() {
 
                 
                 {/* Workout name, amount of sets, weight, reps */}
-                {workout.map((workout, index) => (
+                {workout.map((workoutItem, index) => (
                     <WorkoutBox
-                        key={workout.id}
+                        key={workoutItem.id}
                         setNumber={index + 1}
-                        removeWorkout={() => removeWorkout(workout.id)}
+                        exerciseName={workoutItem.name}
+                        removeWorkout={() => removeWorkout(workoutItem.id)}
                     />
                 ))}
 
