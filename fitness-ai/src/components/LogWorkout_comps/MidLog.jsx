@@ -6,12 +6,7 @@ import WorkoutBox from './WorkoutBox';
 
 function MidLog() {
     const [searchQuery, setSearchQuery] = useState("");
-
-    const workouts = [
-        {value: "bench press", title: "Bench Press"},
-        {value: "deadlift", title: "Deadlift"},
-        {value: "squats", title: "Squats"},
-    ];
+    const [workout, setWorkout] = useState([]);
 
     const handleSearch = (e) => {
         e.preventDefault()
@@ -19,7 +14,12 @@ function MidLog() {
     };
 
     const AddWorkout = () => {
+        const newId = workout.length > 0 ? Math.max(...workout.map(workout => workout.id)) + 1 : 1;
+        setWorkout([...workout, { id: newId }]);
+    }
 
+    const removeWorkout = (id) => {
+        setWorkout(workout.filter(item => item.id !== id));
     };
 
 
@@ -61,18 +61,38 @@ function MidLog() {
                 
                 {/*Search bar*/}
                 <SearchBarExercise />
-                <p className='text-gray-500 text-center pt-8'>No exercise added yet. Use the search above to add exercises.</p>
+
+                {workout.length === 0 && (
+                    <p className='text-gray-500 text-center pt-8'>
+                        No exercise added yet. Use the search above to add exercises.
+                    </p>
+                )}
+                
+
+                
+                {/* Workout name, amount of sets, weight, reps */}
+                {workout.map((workout, index) => (
+                    <WorkoutBox
+                        key={workout.id}
+                        setNumber={index + 1}
+                        removeWorkout={() => removeWorkout(workout.id)}
+                    />
+                ))}
+
 
                 {/* 
                 - On Click add workout card with: 3 columns, each column has a category Set, Weight, Reps
                 - replace the text "No exercise added yet. Use the search above to add exercises"
                 */}
-                
                 <div className='flex justify-center pt-8'>
-                    <button className='border p-3 rounded-md bg-sky-500 text-white hover:bg-blue-600' onClick={AddWorkout}>Add Workout</button>
+                    <button 
+                        className='border p-3 rounded-md bg-sky-500 text-white hover:bg-blue-600' 
+                        onClick={AddWorkout}
+                    >
+                        Add Workout
+                    </button>
                 </div>
-                
-                <WorkoutBox/>
+
             </div>
         </div>
     </div>

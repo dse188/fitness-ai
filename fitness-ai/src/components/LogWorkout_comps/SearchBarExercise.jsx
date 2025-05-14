@@ -38,7 +38,8 @@ function SearchBarExercise() {
     }, [searchTerm]);
     
     const handleClick = (exercise) => {
-        alert(`Selected exercise: ${exercise.name}`);
+        
+
     }
 
 

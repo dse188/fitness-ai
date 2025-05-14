@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import AddSet from './AddSet';
 
-function WorkoutBox() {
+function WorkoutBox({removeWorkout}) {
 
     const [sets, setSets] = useState([{ id: 1}]); // Start with one set
 
@@ -24,7 +24,7 @@ function WorkoutBox() {
             <div className='Workout-contents p-4'>
                 <div className='top-section flex flex-wrap justify-between'>
                     <h1 className='text-xl font-semibold'>Push Up</h1>
-                    <button className='p-2 rounded-md hover:bg-blue-500 '><FaTrashAlt/></button> 
+                    <button className='p-2 rounded-md hover:bg-blue-500' onClick={removeWorkout}><FaTrashAlt/></button> 
                 </div>
 
                 <div className='workout-numbers '>
