@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import AddSet from './AddSet';
 
 function WorkoutBox() {
 
-    var setNumber = 1;
-    var setValue = parseInt(setNumber);
+    const [sets, setSets] = useState([{ id: 1}]); // Start with one set
 
-    const NumberOfSets = (setNumber) => {
-        setValue++;
-        console.log(setValue);
+    const addSet = () => {
+        const newId = sets.length > 0 ? Math.max(...sets.map(set => set.id)) + 1 : 1;
+        setSets([...sets, { id: newId }]);
     }
+
+    const removeSet = (id) => {
+        if(sets.length > 1) { // Prevent removing the first set
+            setSets(sets.filter(set => set.id !== id));
+        }
+    };
     
 
   return (
@@ -27,18 +33,19 @@ function WorkoutBox() {
                         <h6>Weight</h6>
                         <h6>Reps</h6>
                     </div>
-                    <div className='sets-content grid grid-cols-4 pt-2 gap-2 text-sm'>
-                        {setValue}
-                        <input type="number" min={0} className='bg-zinc-100 border rounded-md p-1 pl-3 pr-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2'></input>
-                        <input type="number" min={0} className='bg-zinc-100 border rounded-md p-1 pl-3 pr-3 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2'></input>
-                        <div>
-                            <button className='p-2 rounded-md hover:bg-blue-500 '><FaTrashAlt/></button>
-                        </div>
-                    </div>
+
+                    {sets.map((set, index) => (
+                        <AddSet
+                            key={set.id}
+                            setNumber={index + 1}
+                            onRemove={() => removeSet(set.id)}
+                        />
+                    ))}
+
                     <div className='pt-3'>
                         <button 
                             className='w-full flex justify-center gap-2 p-1 border rounded-md bg-zinc-100 hover:bg-sky-500 hover:text-white'
-                            onClick={NumberOfSets}
+                            onClick={addSet}
                         >+ Add Set</button>
                     </div>
                 </div>
