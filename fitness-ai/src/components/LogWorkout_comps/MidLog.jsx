@@ -18,14 +18,11 @@ function MidLog() {
         setWorkout([...workout, {
             id: newId,
             name: exercise.name,
-            muscle: exercise.muscle
+            muscle: exercise.muscle,
+            type: exercise.type || 'custom' // Default to 'custom' if not provided
         }]);
     }
 
-    const AddWorkout = () => {
-        const newId = workout.length > 0 ? Math.max(...workout.map(workout => workout.id)) + 1 : 1;
-        setWorkout([...workout, { id: newId }]);
-    }
 
     const removeWorkout = (id) => {
         setWorkout(workout.filter(item => item.id !== id));
@@ -72,7 +69,7 @@ function MidLog() {
                 <SearchBarExercise onExerciseSelect={handleExerciseSelect}/>
 
                 {workout.length === 0 && (
-                    <p className='text-gray-500 text-center pt-8'>
+                    <p className='text-gray-500 text-center pt-8 pb-20'>
                         No exercise added yet. Use the search above to add exercises.
                     </p>
                 )}
@@ -85,6 +82,7 @@ function MidLog() {
                         key={workoutItem.id}
                         setNumber={index + 1}
                         exerciseName={workoutItem.name}
+                        muscle={workoutItem.muscle}
                         removeWorkout={() => removeWorkout(workoutItem.id)}
                     />
                 ))}
@@ -94,14 +92,13 @@ function MidLog() {
                 - On Click add workout card with: 3 columns, each column has a category Set, Weight, Reps
                 - replace the text "No exercise added yet. Use the search above to add exercises"
                 */}
-                <div className='flex justify-center pt-8'>
+
                     <button 
-                        className='border p-3 rounded-md bg-sky-500 text-white hover:bg-blue-600' 
-                        onClick={AddWorkout}
+                        className='w-full border p-2 rounded-md bg-sky-400 text-white text-sm font-semibold hover:bg-blue-600' 
                     >
-                        Add Workout
+                        Save Workout
                     </button>
-                </div>
+
 
             </div>
         </div>

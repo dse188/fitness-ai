@@ -10,7 +10,6 @@ function SearchBarExercise({ onExerciseSelect }) {
     const [error, setError] = useState(null);
 
     
-
     useEffect(() => {
         const fetchExercises = async () => {
             setIsLoading(true);
@@ -41,7 +40,19 @@ function SearchBarExercise({ onExerciseSelect }) {
         onExerciseSelect(exercise);
         setData([]); // Clear search result after selection
         setSearchTerm(''); // Clear search input
-    }
+    };
+
+    const handleKeyDown = (e) => {
+        if(e.key === 'Enter' && searchTerm.trim() !== '') {
+            onExerciseSelect({
+                name: searchTerm.trim(),
+                muscle: 'custom',
+                type: 'custom'
+            });
+            setSearchTerm(''); // Clear search result after selection
+            setData([]); // Clear search input
+        }
+    };
 
 
     return (
@@ -54,6 +65,7 @@ function SearchBarExercise({ onExerciseSelect }) {
                 placeholder='Search for exercise...'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+                onKeyDown={handleKeyDown}
             />
             {isLoading && <div>Loading...</div>}
             {error && <div className='error'>{error}</div>}
