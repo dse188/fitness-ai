@@ -2,6 +2,7 @@ import React from 'react'
 import {useState} from "react"
 import Select from "react-select"
 import SearchBarExercise from './SearchBarExercise';
+import WorkoutBox from './WorkoutBox';
 
 function MidLog() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -15,6 +16,10 @@ function MidLog() {
     const handleSearch = (e) => {
         e.preventDefault()
         alert(searchQuery)
+    };
+
+    const AddWorkout = () => {
+
     };
 
 
@@ -49,16 +54,26 @@ function MidLog() {
                 </textarea>
             </div>
         </div>
-        <div className='pt-6'>
+        <div className='Exercises-box pt-6'>
             <div className='bg-white shadow-sm rounded-md p-6 border border-gray-200 '>
                 <h1 className='text-black text-2xl font-semibold '>Exercises</h1>
                 <p className='text-gray-500 text-sm pb-5'>Add exercises to your workout</p>
                 
                 {/*Search bar*/}
                 <SearchBarExercise />
+                <p className='text-gray-500 text-center pt-8'>No exercise added yet. Use the search above to add exercises.</p>
 
+                {/* 
+                - On Click add workout card with: 3 columns, each column has a category Set, Weight, Reps
+                - replace the text "No exercise added yet. Use the search above to add exercises"
+                */}
+                
+                <div className='flex justify-center pt-8'>
+                    <button className='border p-3 rounded-md bg-sky-500 text-white hover:bg-blue-600' onClick={AddWorkout}>Add Workout</button>
+                </div>
+                
+                <WorkoutBox/>
             </div>
-            
         </div>
     </div>
   )
