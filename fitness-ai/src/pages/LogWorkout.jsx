@@ -4,7 +4,7 @@ import MidLog from '../components/LogWorkout_comps/MidLog'
 
 function LogWorkout() {
   return (
-    <div className='min-h-screen flex flex-col bg-zinc-50'>
+    <div className='flex flex-col bg-zinc-50'>
         <Navbar />
         <MidLog />
     </div>

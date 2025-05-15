@@ -59,8 +59,8 @@ function SearchBarExercise({ onExerciseSelect }) {
     <div>
         <div>
             <input 
-                className='search-bar bg-zinc-100 w-full border rounded-md p-1 pl-4 pr-4 placeholder:text-gray-500
-                focus:outline-none  focus:bg-blue-500 '
+                className='search-bar bg-zinc-100 w-full border rounded-md p-1 pl-4 pr-4 placeholder:text-gray-700
+                focus:outline-none  focus:bg-blue-500'
                 type="text"
                 placeholder='Search for exercise...'
                 value={searchTerm}

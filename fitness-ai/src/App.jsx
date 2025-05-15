@@ -5,9 +5,7 @@ import viteLogo from '/vite.svg'
 import FitnessBG from './components/FitnessBG'
 import MainContent from './components/MainContent'
 import Home from './pages/Home'
-import Logworkout from './components/Logworkout'
-import History from './components/History'
-import Progress from './components/Progress'
+import History from './pages/History'
 import Printer from './components/Practice/Printer'
 import LogWorkout from './pages/LogWorkout'
 import {Routes, Route} from "react-router-dom"
@@ -19,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/LogWorkout" element={<LogWorkout />}/>
+        <Route path="/History" element={<History />}/>
       </Routes>
     </main>
   );
