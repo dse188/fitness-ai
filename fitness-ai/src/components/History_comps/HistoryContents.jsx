@@ -5,7 +5,7 @@ import WorkoutHistory from './WorkoutHistory'
 function HistoryContents() {
   return (
     <div>
-        <div className='Main-content pl-14 pr-14'>
+        <div className='Main-content pl-14 pr-14 max-h-screen'>
             <h1 className='text-2xl font-bold text-gray-800 pt-8'>
                 Workout History
             </h1>
@@ -15,7 +15,9 @@ function HistoryContents() {
               <SearchBarExercise />
             </div>
 
-            {/*Workout history goes here */}
+            {/* Workout history goes here */
+              /* Automatically show past workouts here */
+            }
             <div className='pt-4'>
               <WorkoutHistory />
             </div>
