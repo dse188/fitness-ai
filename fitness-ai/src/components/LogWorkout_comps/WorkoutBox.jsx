@@ -1,42 +1,71 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import AddSet from './AddSet';
 
-function WorkoutBox({ removeWorkout, exerciseName, muscle }) {
+function WorkoutBox({ removeWorkout, exerciseName, muscle, exerciseId, onSetChange }) {
 
     const [sets, setSets] = useState([{ 
         id: 1, 
         setNumber: 1, 
-        weight: 0, 
-        reps: 0, 
+        weight: "0", 
+        reps: "0", 
         volume: 0 
     }]);
 
-    const addSet = () => {
+    // Store previous sets to compare changes
+    const prevSetsRef = useRef(sets);
+
+    useEffect(() => {
+        // Only call onSetChange if sets actually changed
+        if (JSON.stringify(prevSetsRef.current) !== JSON.stringify(sets)) {
+            onSetChange(sets);
+            prevSetsRef.current = sets;
+        }
+    }, [sets, onSetChange]);
+
+    const handleSetUpdate = useCallback((currentSets) => {
+        onSetChange(currentSets);
+    }, [onSetChange]);
+    
+    // Notify parent when sets change
+    useEffect(() => {
+        handleSetUpdate(sets);
+    }, [sets, handleSetUpdate]);
+
+    const addSet = useCallback(() => {
         const newId = sets.length > 0 ? Math.max(...sets.map(set => set.id)) + 1 : 1;
-        setSets([...sets, { 
+        setSets(prev => [...prev, { 
             id: newId,
             setNumber: newId,
-            weight: 0, 
-            reps: 0, 
-            volume: 0 
+            weight: "0", 
+            reps: "0", 
+            volume: 0  
         }]);
-    }
+    }, [sets.length]);
 
-    const removeSet = (id) => {
+    const removeSet = useCallback((id) => {
         if(sets.length > 1) {
-            setSets(sets.filter(set => set.id !== id));
+            setSets(prev => prev.filter(set => set.id !== id)
+                .map((set, index) => ({
+                    ...set,
+                    setNumber: index + 1
+                }))
+            );
         }
-    };
+    }, [sets.length]);
 
     const handleSetChange = useCallback((updatedSet) => {
         setSets(prevSets => 
             prevSets.map(set => 
-                set.id === updatedSet.id ? { 
-                    ...set, 
-                    weight: updatedSet.weight, 
-                    reps: updatedSet.reps, 
-                    volume: updatedSet.volume 
+                set.id === updatedSet.id ? {
+                    ...updatedSet,
+                    // Ensure weight and reps remain strings for the input fields
+                    weight: typeof updatedSet.weight === 'number' 
+                        ? updatedSet.weight.toString() 
+                        : updatedSet.weight,
+                    reps: typeof updatedSet.reps === 'number' 
+                        ? updatedSet.reps.toString() 
+                        : updatedSet.reps
                 } : set
             )
         );
@@ -63,15 +92,15 @@ function WorkoutBox({ removeWorkout, exerciseName, muscle }) {
                     </div>
 
                     {sets.map((set) => (
-                        <AddSet
-                            key={set.id}
-                            id={set.id}
-                            setNumber={set.setNumber}
-                            onRemove={() => removeSet(set.id)}
-                            onSetChange={handleSetChange}
-                            initialWeight={set.weight}
-                            initialReps={set.reps}
-                        />
+                            <AddSet
+                                key={set.id}
+                                id={set.id}
+                                setNumber={set.setNumber}
+                                onRemove={() => removeSet(set.id)}
+                                onSetChange={handleSetChange}
+                                initialWeight={set.weight}
+                                initialReps={set.reps}
+                            />
                     ))}
 
                     <div className='pt-3'>

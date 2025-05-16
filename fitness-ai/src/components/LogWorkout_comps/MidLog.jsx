@@ -1,12 +1,22 @@
 import React from 'react'
-import {useState} from "react"
+import {useState, useContext, useCallback} from "react"
 import Select from "react-select"
 import SearchBarExercise from './SearchBarExercise';
 import WorkoutBox from './WorkoutBox';
+import { WorkoutContext } from './WorkoutContext';
 
 function MidLog() {
     const [searchQuery, setSearchQuery] = useState("");
     const [workout, setWorkout] = useState([]);
+    const [workoutTitle, setWorkoutTitle] = useState("");
+    const [workoutDuration, setWorkoutDuration] = useState(0);
+    const [workoutNotes, setWorkoutNotes] = useState("");
+    const [setsData, setSetsData] = useState({}); // To track sets data for each exercise
+
+
+    const { saveWorkout } = useContext(WorkoutContext);
+
+
 
     const handleSearch = (e) => {
         e.preventDefault()
@@ -19,31 +29,70 @@ function MidLog() {
             id: newId,
             name: exercise.name,
             muscle: exercise.muscle,
-            type: exercise.type || 'custom' // Default to 'custom' if not provided
+            type: exercise.type || 'custom',
+            sets: [] // Initialize empty sets array
         }]);
     }
 
 
     const removeWorkout = (id) => {
         setWorkout(workout.filter(item => item.id !== id));
+        const newSetsData = {...setsData};
+        delete newSetsData[id];
+        setSetsData(newSetsData);
     };
 
+    const handleSetChange = useCallback((exerciseId, updatedSets) => {
+        setSetsData(prev => {
+            // Only update if the sets actually changed
+            if (JSON.stringify(prev[exerciseId]) === JSON.stringify(updatedSets)) {
+                return prev;
+            }
+            return {
+                ...prev,
+                [exerciseId]: updatedSets
+            };
+        });
+    }, []);
+
     const handleSaveWorkout = () => {
+        if (!workoutTitle) {
+            alert("Please enter a workout title");
+            return;
+        }
+
+        if (workout.length === 0) {
+            alert("Please add at least one exercise");
+            return;
+        }
+
         const newWorkout = {
             id: Date.now(),
-            title: workoutTitle, // Need to add state for this
+            title: workoutTitle,
             date: new Date().toISOString(),
-            duration: workoutDuration, // Need to add state for this
-            notes: workoutNotes, // Need to add state for this
+            duration: workoutDuration,
+            notes: workoutNotes,
             exercises: workout.map(exercise => ({
-                ...exercise,
-                sets: setsData[exercise.id] || [] // need to track sets data
+                id: exercise.id,
+                name: exercise.name,
+                muscle: exercise.muscle,
+                type: exercise.type,
+                sets: setsData[exercise.id] || []
             }))
         };
 
-        setWorkouts([...workouts, newWorkout]);
-        // also save to localStorage or backend
-    }
+        saveWorkout(newWorkout);
+
+
+        // Reset the form
+        setWorkout([]);
+        setWorkoutTitle("");
+        setWorkoutDuration(0);
+        setWorkoutNotes("");
+        setSetsData({});
+
+        alert("Workout saved successfully!");
+    };
 
 
   return (
@@ -56,25 +105,37 @@ function MidLog() {
             </div>
             <div className='pb-5'>
                 <h4 className='font-semibold text-sm pb-2'>Workout Name</h4>
-                <input type="text" 
-                className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pb-2 pl-3 pr-3
-                focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 placeholder:text-gray-500'
-                placeholder='e.g. Push Day, Leg Day'></input>
+                <input 
+                    type="text"
+                    value={workoutTitle}
+                    onChange={(e) => setWorkoutTitle(e.target.value)}
+                    className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pb-2 pl-3 pr-3
+                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 placeholder:text-gray-500'
+                    placeholder='e.g. Push Day, Leg Day'
+                />
             </div>
             <div className='pb-5 '>
                 <h4 className='font-semibold text-sm pb-2'>Duration (minutes)</h4>
-                <input type="number" min="0" max="1000" 
-                className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pb-2 pl-3 pr-3
-                focus:outline-none focus:ring-2 focus: ring-sky-500 focus:ring-offset-2'></input>
+                <input 
+                    type="number" 
+                    min="0" 
+                    max="1000" 
+                    value={workoutDuration || ''}
+                    onChange={(e) => setWorkoutDuration(parseInt(e.target.value) || 0)}  // Fixed this line
+                    className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pb-2 pl-3 pr-3
+                    focus:outline-none focus:ring-2 focus: ring-sky-500 focus:ring-offset-2'
+                />
             </div>
             <div className=''>
                 <h4 className='font-semibold text-sm pb-2'>Notes</h4>
                 <textarea
-                rows="4" 
-                className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pl-3 pr-3
-                focus:outline-none focus:ring-2 focus: ring-sky-500 focus:ring-offset-2 placeholder:text-gray-500'
-                placeholder='How was your workout? Any PRs?'>
-                </textarea>
+                    rows="4"
+                    value={workoutNotes}
+                    onChange={(e) => setWorkoutNotes(e.target.value)}
+                    className='text-sm bg-slate-100 w-full rounded-md border border-gray-200 pt-2 pl-3 pr-3
+                    focus:outline-none focus:ring-2 focus: ring-sky-500 focus:ring-offset-2 placeholder:text-gray-500'
+                    placeholder='How was your workout? Any PRs?'
+                />
             </div>
         </div>
         <div className='Exercises-box pt-6'>
@@ -94,13 +155,14 @@ function MidLog() {
 
                 
                 {/* Workout name, amount of sets, weight, reps */}
-                {workout.map((workoutItem, index) => (
+                {workout.map((workoutItem) => (
                     <WorkoutBox
                         key={workoutItem.id}
-                        setNumber={index + 1}
+                        exerciseId={workoutItem.id}
                         exerciseName={workoutItem.name}
                         muscle={workoutItem.muscle}
                         removeWorkout={() => removeWorkout(workoutItem.id)}
+                        onSetChange={(sets) => handleSetChange(workoutItem.id, sets)}
                     />
                 ))}
 
@@ -111,7 +173,8 @@ function MidLog() {
                 */}
 
                     <button 
-                        className='w-full border p-2 rounded-md bg-sky-400 text-white text-sm font-semibold hover:bg-blue-600' 
+                        className='w-full border p-2 rounded-md bg-sky-400 text-white text-sm font-semibold hover:bg-blue-600'
+                        onClick={handleSaveWorkout} 
                     >
                         Save Workout
                     </button>
