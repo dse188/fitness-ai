@@ -9,17 +9,20 @@ import History from './pages/History'
 import Printer from './components/Practice/Printer'
 import LogWorkout from './pages/LogWorkout'
 import {Routes, Route} from "react-router-dom"
+import { WorkoutProvider } from './components/LogWorkout_comps/WorkoutContext'
 
 function App() {
 
   return (
-    <main className='main-content'>
-      <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/LogWorkout" element={<LogWorkout />}/>
-        <Route path="/History" element={<History />}/>
-      </Routes>
-    </main>
+    <WorkoutProvider>
+      <main className='main-content'>
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/LogWorkout" element={<LogWorkout />}/>
+          <Route path="/History" element={<History />}/>
+        </Routes>
+      </main>
+    </WorkoutProvider>
   );
 }
 

@@ -28,6 +28,23 @@ function MidLog() {
         setWorkout(workout.filter(item => item.id !== id));
     };
 
+    const handleSaveWorkout = () => {
+        const newWorkout = {
+            id: Date.now(),
+            title: workoutTitle, // Need to add state for this
+            date: new Date().toISOString(),
+            duration: workoutDuration, // Need to add state for this
+            notes: workoutNotes, // Need to add state for this
+            exercises: workout.map(exercise => ({
+                ...exercise,
+                sets: setsData[exercise.id] || [] // need to track sets data
+            }))
+        };
+
+        setWorkouts([...workouts, newWorkout]);
+        // also save to localStorage or backend
+    }
+
 
   return (
     <div className='pl-16 pr-16 pt-10'>
