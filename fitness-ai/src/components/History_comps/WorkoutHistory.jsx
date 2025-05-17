@@ -1,16 +1,30 @@
-import React, { useContext } from 'react'
-import { FaClock, FaCalendar, FaTrashAlt } from 'react-icons/fa'
+import React, { useContext, useState } from 'react'
+import { FaClock, FaCalendar, FaTrashAlt, FaAngleDown, FaAngleUp } from 'react-icons/fa'
 import { WorkoutContext } from '../LogWorkout_comps/WorkoutContext'
 import ShowWorkout from './ShowWorkout'
 
 function WorkoutHistory({exercises, sets, volume}) {
     
     const { workouts, removeWorkout } = useContext(WorkoutContext);
+    const [expandedWorkouts, setExpandedWorkouts] = useState({});
 
     const handleRemoveWorkout = (workoutId) => {
         if(window.confirm('Are you sure you want to delete this workout?')) {
             removeWorkout(workoutId);
+            // Also remove from expanded state iof it exists
+            setExpandedWorkouts(prev => {
+                const newState = {...prev};
+                delete newState[workoutId];
+                return newState;
+            });
         }
+    };
+
+    const toggleWorkout = (workoutId) => {
+        setExpandedWorkouts(prev => ({
+            ...prev,
+            [workoutId] : !prev[workoutId]
+        }));
     };
 
   return (
@@ -41,23 +55,36 @@ function WorkoutHistory({exercises, sets, volume}) {
                         </div>
                     </div>
 
+
                     <div className='Exercise-numbers    pt-6'>
-                        <div className='grid grid-cols-4 text-sm text-gray-500'>
+                        <div className='grid grid-cols-4 gap-x-72 text-sm text-gray-500'>
                             <h6>Exercises</h6>
                             <h6>Sets</h6>
                             <h6>Volume</h6>
+                            
                         </div>
-                        <div className='grid grid-cols-4 text-sm text-black font-semibold'>
+                        <div className='grid grid-cols-4 gap-x-72 text-sm text-black font-semibold'>
                             <h6>{workout.exercises.length}</h6>
                             <h6>{workout.exercises.reduce((total, ex) => total + ex.sets.length, 0)}</h6>
                             <h6>{workout.exercises.reduce((total, ex) =>
-                                total + ex.sets.reduce((sum, set) => sum + set.volume, 0), 0)} lbs</h6>
+                                total + ex.sets.reduce((sum, set) => sum + set.volume, 0), 0)} lbs
+                            </h6>
+                            <div className=''>
+                                <button 
+                                    className='rounded-md hover:bg-blue-500 p-2'
+                                    onClick={() => toggleWorkout(workout.id)}
+                                >
+                                    {expandedWorkouts[workout.id] ? <FaAngleUp/> : <FaAngleDown/>}
+                                </button>
+                            </div>
+                            
+
                         </div>
                     </div>
 
 
                     {/* Show exercise and amount of workout done */}
-                    {workout.exercises.map(exercise => (
+                    {expandedWorkouts[workout.id] && workout.exercises.map(exercise => (
                         <ShowWorkout
                             key={exercise.id}
                             exercise={exercise}
