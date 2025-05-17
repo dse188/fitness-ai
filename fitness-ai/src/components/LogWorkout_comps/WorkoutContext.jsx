@@ -17,8 +17,14 @@ export const WorkoutProvider = ({ children }) => {
         localStorage.setItem('workouts', JSON.stringify(updated));
     };
 
+    const removeWorkout = (workoutId) => {
+        const updated = workouts.filter(workout => workout.id !== workoutId);
+        setWorkouts(updated);
+        localStorage.setItem('workouts', JSON.stringify(updated));
+    };
+
     return (
-        <WorkoutContext.Provider value={{ workouts, saveWorkout }}>
+        <WorkoutContext.Provider value={{ workouts, saveWorkout, removeWorkout }}>
             {children}
         </WorkoutContext.Provider>
     );

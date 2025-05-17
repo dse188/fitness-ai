@@ -1,18 +1,34 @@
 import React, { useContext } from 'react'
-import { FaClock, FaCalendar } from 'react-icons/fa'
+import { FaClock, FaCalendar, FaTrashAlt } from 'react-icons/fa'
 import { WorkoutContext } from '../LogWorkout_comps/WorkoutContext'
 import ShowWorkout from './ShowWorkout'
 
 function WorkoutHistory({exercises, sets, volume}) {
     
-    const { workouts } = useContext(WorkoutContext);
+    const { workouts, removeWorkout } = useContext(WorkoutContext);
+
+    const handleRemoveWorkout = (workoutId) => {
+        if(window.confirm('Are you sure you want to delete this workout?')) {
+            removeWorkout(workoutId);
+        }
+    };
 
   return (
     <div className='space-y-4'>
         {workouts.map(workout => (
             <div key={workout.id} className='Workout-history-card    border rounded-md pb-8'>
                 <div className='pl-5 pr-5'>
-                    <h1 className='text-2xl font-semibold pt-5'>{workout.title}</h1>
+                    <div className='flex justify-between'>
+                        <h1 className='text-2xl font-semibold pt-5'>{workout.title}</h1>
+                        <div>
+                            <button 
+                                className='p-2 rounded-md hover:bg-blue-500 mt-5'
+                                onClick={() => handleRemoveWorkout(workout.id)}
+                            >
+                                <FaTrashAlt/>
+                            </button>
+                        </div>
+                    </div>
                     <div className='Date-and-duration   flex gap-5 text-sm text-gray-500'>
 
                         <div className='Date    flex gap-1'>

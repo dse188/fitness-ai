@@ -94,6 +94,10 @@ function MidLog() {
         alert("Workout saved successfully!");
     };
 
+    const handleRemoveWorkout = () => {
+        
+    }
+
 
   return (
     <div className='pl-16 pr-16 pt-10'>
