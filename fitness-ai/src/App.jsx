@@ -6,6 +6,7 @@ import FitnessBG from './components/FitnessBG'
 import MainContent from './components/MainContent'
 import Home from './pages/Home'
 import History from './pages/History'
+import Progress from './pages/Progress'
 import Printer from './components/Practice/Printer'
 import LogWorkout from './pages/LogWorkout'
 import {Routes, Route} from "react-router-dom"
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/LogWorkout" element={<LogWorkout />}/>
           <Route path="/History" element={<History />}/>
+          <Route path="/Progress" element={<Progress />}/>
         </Routes>
       </main>
     </WorkoutProvider>

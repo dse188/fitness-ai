@@ -11,7 +11,7 @@ function Navbar() {
                     <Link className='hover:text-sky-500'>Dashboard</Link>
                     <Link to='/LogWorkout' className='hover:text-sky-500'>Log Workout</Link>
                     <Link to='/History' className='hover:text-sky-500'>History</Link>
-                    <Link className='hover:text-sky-500'>Progress</Link>
+                    <Link to='/Progress' className='hover:text-sky-500'>Progress</Link>
                 </div>
                 <div className='buttons mr-12 font-semibold text-sm'>
                     <button className='p-2 pr-3 pl-3 mr-2 border bg-gray-100 border-white-100 rounded hover:text-black hover:bg-blue-500'>Login</button>
