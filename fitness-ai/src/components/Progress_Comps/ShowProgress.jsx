@@ -46,7 +46,7 @@ function ShowProgress() {
                     <DropDown
                         options={exerciseOptions}
                         onSelect={handleExerciseSelect}
-                        className='Exercise-dropdown       '
+                        className='Exercise-dropdown      '
                     />
                 </div>
                 
@@ -59,8 +59,8 @@ function ShowProgress() {
                 </div>
             </div>
 
-            <div className='Charts'>
-                <LineChart
+            <div className='Charts      '>
+                <LineChart className=''
                     xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
                     series={[
                         {

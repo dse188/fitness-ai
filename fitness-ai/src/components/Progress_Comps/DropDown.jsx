@@ -32,29 +32,31 @@ function DropDown({ options, onSelect }) {
     }, []);
 
   return (
-    <div 
+    <div>
+        <div 
         className='dropdown     border rounded-md p-2 bg-zinc-100' 
         ref={dropdownRef}
-    >
-        <button onClick={toggleDropdown} className='dropdown-button     w-full'>
-            <div className='flex justify-between'>
-                {selectedValue || 'select'}
-                <FaAngleDown/>
-            </div>
-        </button>
+        >
+            <button onClick={toggleDropdown} className='dropdown-button     w-full'>
+                <div className='flex justify-between'>
+                    {selectedValue || 'select'}
+                    <FaAngleDown/>
+                </div>
+            </button>
+        </div>
         {isOpen && (
-            <ul className='dropdown-menu'>
-                {options.map((option) => (
-                    <li 
-                        key={option}
-                        onClick={() => handleOptionClick(option)}
-                        className='dropdown-item'
-                    >
-                        {option}
-                    </li>
-                ))}
-            </ul>
-        )}
+                <ul className='dropdown-menu bg-zinc-100 border rounded-md mt-2  '>
+                    {options.map((option) => (
+                        <li 
+                            key={option}
+                            onClick={() => handleOptionClick(option)}
+                            className='dropdown-item p-2 hover:bg-sky-500 rounded-md'
+                        >
+                            {option}
+                        </li>
+                    ))}
+                </ul>
+            )}
     </div>
   );
 }

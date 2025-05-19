@@ -61,7 +61,6 @@ function ShowPersonalRecords() {
                             <p className='text-xs text-gray-500 text-right'>1 rep max</p>
                         </div>
                     </div>
-                    <hr/>
                 </div>
                 
             </div>
