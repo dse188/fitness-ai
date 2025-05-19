@@ -37,25 +37,24 @@ function ShowProgress() {
             <h1 className='text-2xl font-semibold'>Strength Progress</h1>
             <p className='text-sm text-gray-500'>Track your strength gains over time for different exercises</p>
 
-            <div className='grid grid-cols-2 pt-6 text-sm gap-4'>
-                <h6>Select Exercise</h6>
-                <h6>Select Metric</h6>
-            </div>
-            <div className='Dropdowns    grid grid-cols-2 pt-1 text-sm gap-4'>
-                <div>
-                    <DropDown
-                        options={exerciseOptions}
-                        onSelect={handleExerciseSelect}
-                        className='Exercise-dropdown      '
-                    />
+            <div className="relative min-h-[120px]"> {/* Fixed height container */}
+                <div className='grid grid-cols-2 pt-2 text-sm gap-4'>
+                    <h6>Select Exercise</h6>
+                    <h6>Select Metric</h6>
                 </div>
-                
-                <div>
-                    <DropDown
-                        options={metricOptions}
-                        onSelect={handleMetricSelect}
-                        className='Metric-dropdown      '
-                    />
+                <div className='grid grid-cols-2 pt-1 text-sm gap-4'>
+                    <div className="relative z-10">
+                        <DropDown
+                            options={exerciseOptions}
+                            onSelect={handleExerciseSelect}
+                        />
+                    </div>
+                    <div className="relative z-10">
+                        <DropDown
+                            options={metricOptions}
+                            onSelect={handleMetricSelect}
+                        />
+                    </div>
                 </div>
             </div>
 

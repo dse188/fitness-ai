@@ -45,7 +45,7 @@ function DropDown({ options, onSelect }) {
             </button>
         </div>
         {isOpen && (
-                <ul className='dropdown-menu bg-zinc-100 border rounded-md mt-2  '>
+                <ul className='dropdown-menu    absolute z-20 w-full bg-zinc-100 border rounded-md mt-2  shadow-lg '>
                     {options.map((option) => (
                         <li 
                             key={option}
