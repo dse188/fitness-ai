@@ -7,33 +7,38 @@ function ShowPersonalRecords() {
   const { workouts } = useContext(WorkoutContext);
   const [commonExercises, setCommonExercises] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [apiError, setApiError] = useState(false);
 
   // Get common exercises from API and custom workouts
   useEffect(() => {
     const fetchCommonExercises = async () => {
       try {
+        setIsLoading(true);
+        setApiError(false);
+        
         // Get popular exercises from API
-        const apiExercises = await searchExerciseName('');
+        const apiExercises = await searchExerciseName('popular');
         const apiExerciseNames = apiExercises.map(ex => ex.name);
         
         // Get unique exercises from workout history
         const customExercises = [...new Set(
           workouts.flatMap(workout => workout.exercises.map(ex => ex.name))
-        )];
+          )];
         
-        // Combine and deduplicate
+        // Combine and deduplicate, prioritizing custom exercises
         const combined = [
-          ...new Set([...apiExerciseNames, ...customExercises])
+          ...new Set([...customExercises, ...apiExerciseNames])
         ].slice(0, 12); // Limit to top 12 exercises
         
         setCommonExercises(combined);
       } catch (error) {
         console.error("Error fetching exercises:", error);
-        // Fallback to just custom exercises if API fails
+        setApiError(true);
+        // Fallback to just custom exercises
         const customExercises = [...new Set(
           workouts.flatMap(workout => workout.exercises.map(ex => ex.name))
         )];
-        setCommonExercises(customExercises);
+        setCommonExercises(customExercises.slice(0, 12));
       } finally {
         setIsLoading(false);
       }
@@ -99,6 +104,12 @@ function ShowPersonalRecords() {
       <div className='PR-contents border rounded-md bg-white p-6'>
         <h1 className='text-2xl font-semibold'>Personal Records</h1>
         <p className='text-sm text-gray-500'>Your best performances for key exercises</p>
+
+        {apiError && (
+          <p className="text-sm text-yellow-600 mb-2">
+            Note: Using limited exercise list as API is temporarily unavailable
+          </p>
+        )}
 
         {workouts.length === 0 ? (
           <div className="pt-4 text-gray-500">
