@@ -100,7 +100,7 @@ function MidLog() {
 
 
   return (
-    <div className='pl-16 pr-16 pt-10'>
+    <div className='pl-16 pr-16'>
         <h1 className='text-black text-2xl font-bold pb-6'>Log a Workout</h1>
         <div className='bg-white shadow-sm rounded-md p-6 border border-gray-200'>
             <div className='pb-5'>

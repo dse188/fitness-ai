@@ -6,7 +6,7 @@ function HistoryContents() {
   return (
     <div>
         <div className='Main-content pl-14 pr-14 max-h-screen'>
-            <h1 className='text-2xl font-bold text-gray-800 pt-8'>
+            <h1 className='text-2xl font-bold text-gray-800'>
                 Workout History
             </h1>
             <p className='text-gray-700 text-sm font-semibold pt-8'>Filter by exercise</p>

@@ -94,13 +94,28 @@ function ShowPersonalRecords() {
   };
 
   const handleQuestionClick = (e) => {
+    e.stopPropagation();
     const rect = e.currentTarget.getBoundingClientRect();
     setTooltipPosition({
       x: rect.left + window.scrollX,
       y: rect.top + window.scrollY - 40
     });
-    setShowTooltip(!showTooltip);
+    setShowTooltip(true);
   };
+
+  // Close tooltip when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (showTooltip) {
+        setShowTooltip(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showTooltip]);
 
   const personalRecords = calculatePRs();
 
@@ -182,11 +197,13 @@ function ShowPersonalRecords() {
 
       {showTooltip && (
         <div 
-          className='fixed bg-white border rounded-md shadow-lg p-3 text-sm max-w-xs z-50'
+          className='fixed bg-white border rounded-md shadow-lg p-3 text-sm max-w-xs z-[100] transition-opacity duration-200'
           style={{
-            left: `${tooltipPosition.x}px`,
-            top: `${tooltipPosition.y}px`
+            left: `${Math.min(tooltipPosition.x, window.innerWidth - 300)}px`,
+            top: `${Math.max(tooltipPosition.y, 20)}px`,
+            opacity: showTooltip ? 1 : 0
           }}
+          onClick={(e) => e.stopPropagation()}
         >
           <h4 className='font-semibold mb-1'>1RM Estimation Formula</h4>
           <p className='mb-1'>We use the Epley formula to estimate your one-rep max:</p>
@@ -194,7 +211,10 @@ function ShowPersonalRecords() {
           <p>This gives a good estimate based on your performance with higher reps.</p>
           <button 
             className='mt-2 text-blue-500 text-xs'
-            onClick={() => setShowTooltip(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowTooltip(false);
+            }}
           >
             Close
           </button>

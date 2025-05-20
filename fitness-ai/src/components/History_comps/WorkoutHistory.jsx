@@ -28,7 +28,7 @@ function WorkoutHistory({exercises, sets, volume}) {
     };
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-4 pb-12'>
         {workouts.map(workout => (
             <div key={workout.id} className='Workout-history-card    border rounded-md pb-8'>
                 <div className='pl-5 pr-5'>
