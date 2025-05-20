@@ -1,9 +1,7 @@
-import React from 'react'
-import { useState, useRef, useEffect } from 'react';
-import { FaAngleDown } from 'react-icons/fa';
+import React, { useState, useRef, useEffect } from 'react';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 
-function DropDown({ options, onSelect }) {
-
+function DropDown({ options, onSelect, placeholder }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(null);
     const dropdownRef = useRef(null);
@@ -19,7 +17,7 @@ function DropDown({ options, onSelect }) {
     };
 
     const handleClickOutside = (event) => {
-        if(dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setIsOpen(false);
         }
     };
@@ -31,34 +29,30 @@ function DropDown({ options, onSelect }) {
         };
     }, []);
 
-  return (
-    <div>
-        <div 
-        className='dropdown     border rounded-md p-2 bg-zinc-100' 
-        ref={dropdownRef}
-        >
-            <button onClick={toggleDropdown} className='dropdown-button     w-full'>
-                <div className='flex justify-between'>
-                    {selectedValue || 'select'}
-                    <FaAngleDown/>
-                </div>
+    return (
+        <div className="relative" ref={dropdownRef}>
+            <button 
+                onClick={toggleDropdown} 
+                className="w-full p-2 border rounded-md bg-white hover:bg-gray-50 flex justify-between items-center"
+            >
+                <span>{selectedValue || placeholder}</span>
+                {isOpen ? <FaAngleUp /> : <FaAngleDown />}
             </button>
-        </div>
-        {isOpen && (
-                <ul className='dropdown-menu    absolute z-20 w-full bg-zinc-100 border rounded-md mt-2  shadow-lg '>
+            {isOpen && (
+                <ul className="absolute z-20 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
                     {options.map((option) => (
                         <li 
                             key={option}
                             onClick={() => handleOptionClick(option)}
-                            className='dropdown-item p-2 hover:bg-sky-500 rounded-md'
+                            className="p-2 hover:bg-blue-50 cursor-pointer"
                         >
                             {option}
                         </li>
                     ))}
                 </ul>
             )}
-    </div>
-  );
+        </div>
+    );
 }
 
-export default DropDown
+export default DropDown;
