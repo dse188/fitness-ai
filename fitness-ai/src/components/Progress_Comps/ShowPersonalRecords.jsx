@@ -2,12 +2,15 @@ import React, { useContext, useState, useEffect } from 'react';
 import { WorkoutContext } from '../LogWorkout_comps/WorkoutContext';
 import { parseISO, format } from 'date-fns';
 import { searchExerciseName } from '../../services/api';
+import { FaQuestion } from 'react-icons/fa';
 
 function ShowPersonalRecords() {
   const { workouts } = useContext(WorkoutContext);
   const [commonExercises, setCommonExercises] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   // Get common exercises from API and custom workouts
   useEffect(() => {
@@ -23,7 +26,7 @@ function ShowPersonalRecords() {
         // Get unique exercises from workout history
         const customExercises = [...new Set(
           workouts.flatMap(workout => workout.exercises.map(ex => ex.name))
-          )];
+        )];
         
         // Combine and deduplicate, prioritizing custom exercises
         const combined = [
@@ -60,9 +63,10 @@ function ShowPersonalRecords() {
       workout.exercises.forEach(exercise => {
         if (!prs[exercise.name]) {
           prs[exercise.name] = {
-            maxWeight: 0,
-            date: workout.date,
-            estimated1RM: 0
+            maxWeight: 0,       // Heaviest weight actually lifted
+            date: workout.date,  // Date of heaviest lift
+            estimated1RM: 0,     // Estimated 1RM using Epley formula
+            estimated1RMDate: workout.date // Date of best estimated 1RM
           };
         }
 
@@ -81,11 +85,21 @@ function ShowPersonalRecords() {
         }
         if (workout1RM > prs[exercise.name].estimated1RM) {
           prs[exercise.name].estimated1RM = workout1RM;
+          prs[exercise.name].estimated1RMDate = workout.date;
         }
       });
     });
 
     return prs;
+  };
+
+  const handleQuestionClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      x: rect.left + window.scrollX,
+      y: rect.top + window.scrollY - 40
+    });
+    setShowTooltip(!showTooltip);
   };
 
   const personalRecords = calculatePRs();
@@ -100,7 +114,7 @@ function ShowPersonalRecords() {
   }
 
   return (
-    <div>
+    <div className='max-w-7xl'>
       <div className='PR-contents border rounded-md bg-white p-6'>
         <h1 className='text-2xl font-semibold'>Personal Records</h1>
         <p className='text-sm text-gray-500'>Your best performances for key exercises</p>
@@ -134,11 +148,28 @@ function ShowPersonalRecords() {
                         {format(parseISO(pr.date), 'MMM d, yyyy')}
                       </p>
                     </div>
-                    <div>
-                      <h2 className='text-xl font-bold'>
-                        {Math.round(pr.estimated1RM)} lbs
-                      </h2>
-                      <p className='text-xs text-gray-500 text-right'>1 rep max</p>
+                    <div className='text-right grid grid-cols-2 gap-5'>
+                      <div className=''>
+                        <h2 className='text-xl font-bold'>
+                          {Math.round(pr.maxWeight)} lbs
+                        </h2>
+                        <p className='text-xs text-gray-500'>heaviest lifted</p>
+                      </div>
+                      
+                      <div className='Expected-one-rep-max flex justify-end items-center gap-1'>
+                        <div>
+                          <h2 className='text-xl font-bold'>
+                            {Math.round(pr.estimated1RM)} lbs
+                          </h2>
+                          <p className='text-xs text-gray-500'>estimated 1RM</p>
+                        </div>
+                        <button 
+                          className='border rounded-full p-1 bg-zinc-100 hover:bg-zinc-300'
+                          onClick={handleQuestionClick}
+                        >
+                          <FaQuestion className='text-xs text-gray-500'/>
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <hr className='my-2' />
@@ -148,6 +179,27 @@ function ShowPersonalRecords() {
           </div>
         )}
       </div>
+
+      {showTooltip && (
+        <div 
+          className='fixed bg-white border rounded-md shadow-lg p-3 text-sm max-w-xs z-50'
+          style={{
+            left: `${tooltipPosition.x}px`,
+            top: `${tooltipPosition.y}px`
+          }}
+        >
+          <h4 className='font-semibold mb-1'>1RM Estimation Formula</h4>
+          <p className='mb-1'>We use the Epley formula to estimate your one-rep max:</p>
+          <p className='font-mono bg-gray-100 p-1 rounded mb-1'>1RM = weight × (1 + reps/30)</p>
+          <p>This gives a good estimate based on your performance with higher reps.</p>
+          <button 
+            className='mt-2 text-blue-500 text-xs'
+            onClick={() => setShowTooltip(false)}
+          >
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import ShowPersonalRecords from './ShowPersonalRecords'
 
 function ProgressContainer() {
   return (
-    <div className='min-h-screen flex justify-center p-8'>
+    <div className='flex justify-center pl-12 pr-12'>
       <div className='w-full max-w-7xl'> {/* This container matches the width of Progress-main-content */}
         <h1 className='text-2xl font-bold pb-8 text-left'>
           Progress Tracking
