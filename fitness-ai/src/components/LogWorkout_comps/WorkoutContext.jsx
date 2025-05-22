@@ -1,31 +1,60 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export const WorkoutContext = createContext();
+export const WorkoutContext = createContext(); // <-- add export here
 
-export const WorkoutProvider = ({ children }) => {
-    const [workouts, setWorkouts] = useState([]);
+export function useWorkouts() {
+  return useContext(WorkoutContext);
+}
 
-    useEffect(() => {
-        // Load saved workouts from localStorage or API
-        const saved = localStorage.getItem('workouts');
-        if(saved) setWorkouts(JSON.parse(saved));
-    }, []);
+export function WorkoutProvider({ children }) {
+  const [workouts, setWorkouts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const saveWorkout = (workout) => {
-        const updated = [...workouts, workout];
-        setWorkouts(updated);
-        localStorage.setItem('workouts', JSON.stringify(updated));
-    };
+  const fetchWorkouts = async () => {
+    setLoading(true);
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch('http://localhost:5000/api/workouts', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setWorkouts(data);
+      }
+    } catch {
+      setWorkouts([]);
+    }
+    setLoading(false);
+  };
 
-    const removeWorkout = (workoutId) => {
-        const updated = workouts.filter(workout => workout.id !== workoutId);
-        setWorkouts(updated);
-        localStorage.setItem('workouts', JSON.stringify(updated));
-    };
+  const saveWorkout = async (workout) => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch('http://localhost:5000/api/workouts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(workout)
+      });
+      if (res.ok) {
+        await fetchWorkouts();
+        return true;
+      }
+    } catch {
+      // handle error
+    }
+    return false;
+  };
 
-    return (
-        <WorkoutContext.Provider value={{ workouts, saveWorkout, removeWorkout }}>
-            {children}
-        </WorkoutContext.Provider>
-    );
-};
+  useEffect(() => {
+    fetchWorkouts();
+  }, []);
+
+  return (
+    <WorkoutContext.Provider value={{ workouts, saveWorkout, loading, fetchWorkouts }}>
+      {children}
+    </WorkoutContext.Provider>
+  );
+}
