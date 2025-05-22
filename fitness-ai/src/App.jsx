@@ -11,6 +11,7 @@ import Printer from './components/Practice/Printer'
 import LogWorkout from './pages/LogWorkout'
 import {Routes, Route} from "react-router-dom"
 import { WorkoutProvider } from './components/LogWorkout_comps/WorkoutContext'
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <main className='main-content'>
         <Routes>
           <Route path="/" element={<Home />}/>
+          <Route path="/Dashboard" element={<Dashboard />}/>
           <Route path="/LogWorkout" element={<LogWorkout />}/>
           <Route path="/History" element={<History />}/>
           <Route path="/Progress" element={<Progress />}/>
