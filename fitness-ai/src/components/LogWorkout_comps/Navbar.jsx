@@ -1,7 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import LoginForm from '../Login_Register/LoginForm';
+import RegisterForm from '../Login_Register/RegisterForm';
 
 function Navbar() {
+
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+
   return (
     <div className=''>
         <div className='p-4 bg-white shadow-sm'>
@@ -14,13 +21,25 @@ function Navbar() {
                     <Link to='/Progress' className='hover:text-sky-500'>Progress</Link>
                 </div>
                 <div className='buttons mr-12 font-semibold text-sm'>
-                    <button className='p-2 pr-3 pl-3 mr-2 border bg-gray-100 border-white-100 rounded hover:text-black hover:bg-blue-500'>Login</button>
-                    <button className='p-2 pr-3 pl-3  text-white border bg-sky-500 rounded hover:text-white hover:bg-sky-600 '>Register</button>
+                    <button 
+                        className='p-2 pr-3 pl-3 mr-2 border bg-gray-100 border-white-100 rounded hover:text-black hover:bg-blue-500'
+                        onClick={() => setShowLogin(true)}
+                    >
+                        Login
+                    </button>
+                    <button 
+                        className='p-2 pr-3 pl-3  text-white border bg-sky-500 rounded hover:text-white hover:bg-sky-600 '
+                        onClick={() => setShowRegister(true)}
+                    >
+                        Register
+                    </button>
+                    {showLogin && <LoginForm onSuccess={() => setShowLogin(false)} />}
+                    {showRegister && <RegisterForm onSuccess={() => setShowRegister(false)} />}
                 </div>
             </div>
         </div>
     </div>
-  )
+  );
 }
 
 export default Navbar
