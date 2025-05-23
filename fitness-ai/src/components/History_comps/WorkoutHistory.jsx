@@ -3,15 +3,13 @@ import { FaClock, FaCalendar, FaTrashAlt, FaAngleDown, FaAngleUp } from 'react-i
 import { WorkoutContext } from '../LogWorkout_comps/WorkoutContext'
 import ShowWorkout from './ShowWorkout'
 
-function WorkoutHistory({exercises, sets, volume}) {
-    
+function WorkoutHistory({ searchTerm }) {
     const { workouts, removeWorkout } = useContext(WorkoutContext);
     const [expandedWorkouts, setExpandedWorkouts] = useState({});
 
     const handleRemoveWorkout = (workoutId) => {
         if(window.confirm('Are you sure you want to delete this workout?')) {
             removeWorkout(workoutId);
-            // Also remove from expanded state iof it exists
             setExpandedWorkouts(prev => {
                 const newState = {...prev};
                 delete newState[workoutId];
@@ -27,10 +25,19 @@ function WorkoutHistory({exercises, sets, volume}) {
         }));
     };
 
+    // Filter workouts by exercise name if searchTerm is provided
+    const filteredWorkouts = searchTerm
+      ? workouts.filter(workout =>
+          workout.exercises.some(ex =>
+            ex.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        )
+      : workouts;
+
   return (
     <div className='space-y-4 pb-12'>
-        {workouts.map(workout => (
-            <div key={workout.id} className='Workout-history-card    border rounded-md pb-8'>
+        {filteredWorkouts.map(workout => (
+            <div key={workout.id} className='Workout-history-card    border rounded-md pb-8 bg-white'>
                 <div className='pl-5 pr-5'>
                     <div className='flex justify-between'>
                         <h1 className='text-2xl font-semibold pt-5'>{workout.title}</h1>
@@ -55,13 +62,11 @@ function WorkoutHistory({exercises, sets, volume}) {
                         </div>
                     </div>
 
-
                     <div className='Exercise-numbers    pt-6'>
                         <div className='grid grid-cols-4 gap-x-72 text-sm text-gray-500'>
                             <h6>Exercises</h6>
                             <h6>Sets</h6>
                             <h6>Volume</h6>
-                            
                         </div>
                         <div className='grid grid-cols-4 gap-x-72 text-sm text-black font-semibold'>
                             <h6>{workout.exercises.length}</h6>
@@ -77,11 +82,8 @@ function WorkoutHistory({exercises, sets, volume}) {
                                     {expandedWorkouts[workout.id] ? <FaAngleUp/> : <FaAngleDown/>}
                                 </button>
                             </div>
-                            
-
                         </div>
                     </div>
-
 
                     {/* Show exercise and amount of workout done */}
                     {expandedWorkouts[workout.id] && workout.exercises.map(exercise => (

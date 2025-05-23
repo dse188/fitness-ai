@@ -1,29 +1,37 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import LoginForm from '../Login_Register/LoginForm'
 import RegisterForm from '../Login_Register/RegisterForm'
 
 function TopHome() {
   const [showLogin, setShowLogin] = useState(false)
   const [showRegister, setShowRegister] = useState(false)
+  const navigate = useNavigate();
 
   const scrollToMiddle = () => {
     const middleSection = document.getElementById('middle-section')
     if (middleSection) {
       middleSection.scrollIntoView({ behavior: 'smooth' })
     }
-  }
+  };
 
   const handleLoginSuccess = () => {
     setShowLogin(false)
-    // You might want to redirect or update UI state here
-  }
+    navigate('/Dashboard'); // Redirect to Dashboard after login
+  };
 
   const handleRegisterSuccess = () => {
     setShowRegister(false)
-    // Optionally show login form after successful registration
     setShowLogin(true)
-  }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    navigate('/');
+  };
+
+  const isLoggedIn = !!localStorage.getItem('token');
 
   return (
     <div className='text-white bg-gradient-to-b from-sky-500 to-cyan-400 mt pb-16'>
@@ -57,20 +65,31 @@ function TopHome() {
       )}
 
       <div className='navbar font-bold flex justify-between ml-8 mr-8 pt-3'>
-        <span className='text-xl'>FitnessAI</span>
+        <span className='text-xl'>FitLog</span>
         <div className='text-black font-normal text-sm'>
-          <button 
-            onClick={() => setShowLogin(true)}
-            className='p-2 pr-3 pl-3 mr-2 border bg-sky-500 border-white-100 rounded hover:text-white hover:bg-blue-600 hover:border-none'
-          >
-            Login
-          </button>
-          <button 
-            onClick={() => setShowRegister(true)}
-            className='p-2 pr-3 pl-3 border bg-sky-500 rounded hover:text-white hover:bg-blue-600 hover:border-none'
-          >
-            Register
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className='p-2 pr-3 pl-3 border bg-sky-500 rounded hover:text-white hover:bg-blue-600 hover:border-none'
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <button 
+                onClick={() => setShowLogin(true)}
+                className='p-2 pr-3 pl-3 mr-2 border bg-sky-500 border-white-100 rounded hover:text-white hover:bg-blue-600 hover:border-none'
+              >
+                Login
+              </button>
+              <button 
+                onClick={() => setShowRegister(true)}
+                className='p-2 pr-3 pl-3 border bg-sky-500 rounded hover:text-white hover:bg-blue-600 hover:border-none'
+              >
+                Register
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -80,14 +99,12 @@ function TopHome() {
         </h1>
 
         <p className='text-2xl text-center pb-4'>
-          Log workouts, track progress, and achieve your fitness goals <br/>with FitnessAI
+          Log workouts, track progress, and achieve your fitness goals <br/>with FitLog
         </p>
 
         <div className='start button'>
           <div className='text-center text-sky-400 font-semibold text-sm p-5'>
-            <Link to='/LogWorkout' className='pr-5 pt-2 pb-2 pl-5 border bg-white border-white-100 rounded-md mr-5 hover:text-black hover:bg-cyan-500'>
-              Get Started
-            </Link>
+            
             <button
               onClick={scrollToMiddle}
               className='pr-5 pt-2 pb-2 pl-5 border bg-white rounded-md hover:text-black hover:bg-cyan-500'

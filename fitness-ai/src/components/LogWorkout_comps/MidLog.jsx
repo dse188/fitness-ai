@@ -20,15 +20,24 @@ function MidLog() {
     alert(searchQuery);
   };
 
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, (txt) =>
+      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    );
+  }
+
   const handleExerciseSelect = (exercise) => {
     const newId = workout.length > 0 ? Math.max(...workout.map(w => w.id)) + 1 : 1;
-    setWorkout([...workout, {
-      id: newId,
-      name: exercise.name,
-      muscle: exercise.muscle,
-      type: exercise.type || 'custom',
-      sets: [] // Initialize empty sets array
-    }]);
+    setWorkout([
+      ...workout,
+      {
+        id: newId,
+        name: toTitleCase(exercise.name), // <-- Title case here
+        muscle: exercise.muscle,
+        type: exercise.type || 'custom',
+        sets: [] // Initialize empty sets array
+      }
+    ]);
   };
 
   const removeWorkout = (id) => {
