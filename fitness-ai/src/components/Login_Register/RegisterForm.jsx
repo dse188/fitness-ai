@@ -76,7 +76,7 @@ function RegisterForm({ onSuccess }) {
         required
       />
       <button
-        className='bg-blue-500 text-white p-2 rounded'
+        className='w-full bg-sky-400 hover:bg-blue-500 text-white p-2 rounded'
         type='submit'
       >
         Register

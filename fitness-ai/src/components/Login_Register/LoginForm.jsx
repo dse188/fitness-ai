@@ -38,10 +38,13 @@ function LoginForm({ onSuccess }) {
 
   return (
     <form onSubmit={handleSubmit} className="login-form">
-      <input value={username} onChange={e => setUsername(e.target.value)} placeholder='Username'/>
-      <input type='password' value={password} onChange={e => setPassword(e.target.value)} placeholder='Password'/>
-      <button type='submit'>Login</button>
-      {error && <div>{error}</div>}
+      <div className='flex flex-col gap-2 mb-4'> 
+        <input value={username} onChange={e => setUsername(e.target.value)} className='text-black p-1 bg-gray-200 rounded-md' placeholder='Username'/>
+        <input type='password' value={password} onChange={e => setPassword(e.target.value)} className='text-black p-1 bg-gray-200 rounded-md' placeholder='Password'/>
+      </div>
+      
+      <button type='submit' className='w-full text-black border p-1 rounded-md hover:bg-sky-300'>Login</button>
+      {error && <div className='text-black'>{error}</div>}
     </form>
   )
 }

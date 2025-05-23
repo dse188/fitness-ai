@@ -9,8 +9,49 @@ function Navbar() {
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
 
+    const handleLoginSuccess = () => {
+    setShowLogin(false)
+    // You might want to redirect or update UI state here
+    }
+
+    const handleRegisterSuccess = () => {
+    setShowRegister(false)
+    // Optionally show login form after successful registration
+    setShowLogin(true)
+    }
+
+    
+
   return (
     <div className=''>
+        {/* Modal Overlays */}
+      {showLogin && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full">
+            <LoginForm onSuccess={handleLoginSuccess} />
+            <button 
+              onClick={() => setShowLogin(false)}
+              className="mt-4 text-gray-600 hover:text-red-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showRegister && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full">
+            <RegisterForm onSuccess={handleRegisterSuccess} />
+            <button 
+              onClick={() => setShowRegister(false)}
+              className="mt-4 text-gray-600 hover:text-gray-800"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
         <div className='p-4 bg-white shadow-sm'>
             <div className='text-black grid grid-flow-col-dense justify-between mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-12'> {/* Places logo and buttons on both ends of the page */}
                 <Link to='/' className='ml-12 text-2xl font-bold text-sky-500 hover:text-sky-600'>FitnessAI</Link>
@@ -33,8 +74,6 @@ function Navbar() {
                     >
                         Register
                     </button>
-                    {showLogin && <LoginForm onSuccess={() => setShowLogin(false)} />}
-                    {showRegister && <RegisterForm onSuccess={() => setShowRegister(false)} />}
                 </div>
             </div>
         </div>

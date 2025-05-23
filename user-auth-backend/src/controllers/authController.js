@@ -35,3 +35,8 @@ export const login = async (req, res) => {
         res.status(500).json({ message: 'Error logging in', error });
     }
 };
+
+export const getCurrentUser = async (req, res) => {
+  if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
+  res.json({ username: req.user.username, email: req.user.email });
+};

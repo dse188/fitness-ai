@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaBars, FaChartLine } from 'react-icons/fa';
 import { useWorkouts } from '../LogWorkout_comps/WorkoutContext';
 import WorkoutHistory from '../History_comps/WorkoutHistory';
@@ -7,14 +7,32 @@ import ShowProgress from '../Progress_Comps/ShowProgress';
 function DashboardContents() {
   const { workouts } = useWorkouts();
   const [view, setView] = useState('overview');
+  const [username, setUsername] = useState('User');
+
+  // Fetch username from backend on mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      try {
+        const res = await fetch('http://localhost:5000/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setUsername(data.username);
+        }
+      } catch {
+        // fallback or error handling
+      }
+    };
+    fetchUser();
+  }, []);
 
   // Get latest 3 workouts
   const latestWorkouts = [...workouts]
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 3);
-
-  // Get username from localStorage or context if available
-  const username = localStorage.getItem('username') || 'User';
 
   // Calculate stats for the logged-in user
   const totalWorkouts = workouts.length;
@@ -37,7 +55,7 @@ function DashboardContents() {
   return (
     <div>
       <div>
-        <h1 className='text-2xl font-bold'>Welcome back {username},</h1>
+        <h1 className='text-2xl font-bold'>Welcome back <span className='hover:text-sky-500'>{username}</span>,</h1>
 
         {/* Cards that show total workouts, total exercises, and total sets */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4'>

@@ -1,24 +1,24 @@
 import React from 'react'
 import Cards from './Cards'
-import { FaGamepad, FaCode, FaObjectGroup } from 'react-icons/fa';
+import { FaGamepad, FaBookOpen, FaChartLine, FaHistory  } from 'react-icons/fa';
 
 const cards = [
     {
         title: "Log Workouts",
         info: "Easily record your exercises, sets, reps, and weights to keep track of your training",
-        icon: <FaGamepad className="text-blue-500 text-3xl"/>,
+        icon: <FaBookOpen className="text-blue-500 text-3xl"/>,
         id: 1
     },
     {
         title: "Track Progress",
         info: "Visualize your strength gains and improvements over time with detailed charts.",
-        icon: <FaGamepad className='text-blue-500 text-3xl'/>,
+        icon: <FaChartLine className='text-blue-500 text-3xl'/>,
         id: 2
     },
     {
         title: "View History",
         info: "Access your complete workout history and filter by exercise or date.",
-        icon: <FaGamepad className='text-blue-500 text-3xl'/>,
+        icon: <FaHistory className='text-blue-500 text-3xl'/>,
         id: 3
     }
 ];
@@ -26,7 +26,7 @@ const cards = [
 
 function MiddleHome() {
   return (
-    <div className=''>
+    <div id="middle-section" className=''>
         <div className='p-14'>
           <div>
             <h2 
