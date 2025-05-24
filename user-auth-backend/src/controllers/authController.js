@@ -6,11 +6,16 @@ export const signUp = async (req, res) => {
     const { username, password } = req.body;
 
     try {
+        // Check for duplicate username
+        const existingUser = await User.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({ username, password: hashedPassword });
         res.status(201).json({ message: 'User created successfully', user: newUser });
     } catch (error) {
-        console.error(error);
+        console.error('Register error:', error);
         res.status(500).json({ message: 'Error creating user', error });
     }
 };
@@ -39,5 +44,5 @@ export const login = async (req, res) => {
 
 export const getCurrentUser = async (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
-  res.json({ username: req.user.username, email: req.user.email });
+  res.json({ username: req.user.username });
 };
