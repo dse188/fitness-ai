@@ -1,8 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import RegisterForm from '../Login_Register/RegisterForm'
+import { useNavigate } from 'react-router-dom'
 
 function BottomHome() {
   const [showRegister, setShowRegister] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Extra security: verify token with backend
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setIsLoggedIn(false);
+        return;
+      }
+      try {
+        const res = await fetch('https://fitlog-eice.onrender.com/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setIsLoggedIn(res.ok);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const handleRegisterSuccess = () => {
     setShowRegister(false);
@@ -33,12 +56,21 @@ function BottomHome() {
           Join thousands of fitness enthusiasts who are using FitLog to achieve their<br/>goals
         </p>
         <div className='flex justify-center p-6'>
-          <button 
-            className='bg-sky-500 p-3 text-sm text-white font-bold rounded pl-7 pr-7 hover:bg-blue-600 mb-28'
-            onClick={() => setShowRegister(true)}
-          >
-            Create Free Account
-          </button>
+          {isLoggedIn ? (
+            <button
+              className='bg-sky-500 p-3 text-sm text-white font-bold rounded pl-7 pr-7 hover:bg-blue-600 mb-28'
+              onClick={() => navigate('/Dashboard')}
+            >
+              Your Dashboard
+            </button>
+          ) : (
+            <button 
+              className='bg-sky-500 p-3 text-sm text-white font-bold rounded pl-7 pr-7 hover:bg-blue-600 mb-28'
+              onClick={() => setShowRegister(true)}
+            >
+              Create Free Account
+            </button>
+          )}
         </div>
       </div>
     </div>
