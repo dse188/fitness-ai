@@ -53,14 +53,14 @@ function RegisterForm({ onSuccess }) {
     <form onSubmit={handleSubmit} className="register-form bg-white p-6 rounded shadow-md max-w-sm mx-auto">
       <h2 className='text-xl font-bold mb-4'>Register</h2>
       <input
-        className='block w-full mb-2 p-2 border rounded'
+        className='text-black block w-full mb-2 p-2 border rounded'
         placeholder='Username'
         value={username}
         onChange={e => setUsername(e.target.value)}
         required
       />
       <input
-        className='block w-full mb-2 p-2 border rounded'
+        className='text-black block w-full mb-2 p-2 border rounded'
         type='password'
         placeholder='Password'
         value={password}
@@ -68,7 +68,7 @@ function RegisterForm({ onSuccess }) {
         required
       />
       <input
-        className='block w-full mb-2 p-2 border rounded'
+        className='text-black block w-full mb-2 p-2 border rounded'
         type='password'
         placeholder='Confirm Password'
         value={confirmPassword}
