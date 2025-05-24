@@ -25,7 +25,7 @@ function HistoryContents() {
 
         {/* Filtered workout history */}
         <div className='pt-4'>
-          <WorkoutHistory searchTerm={searchTerm} />
+          <WorkoutHistory searchTerm={searchTerm} showNotes={true} />
         </div>
       </div>
     </div>

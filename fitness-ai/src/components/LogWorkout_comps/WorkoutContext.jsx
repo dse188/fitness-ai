@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export const WorkoutContext = createContext(); // <-- add export here
+export const WorkoutContext = createContext();
 
 export function useWorkouts() {
   return useContext(WorkoutContext);
@@ -48,12 +48,29 @@ export function WorkoutProvider({ children }) {
     return false;
   };
 
+  const removeWorkout = async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`http://localhost:5000/api/workouts/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        await fetchWorkouts(); // Refresh from backend
+      }
+    } catch {
+      // Optionally handle error
+    }
+  };
+
   useEffect(() => {
     fetchWorkouts();
   }, []);
 
   return (
-    <WorkoutContext.Provider value={{ workouts, saveWorkout, loading, fetchWorkouts }}>
+    <WorkoutContext.Provider value={{ workouts, saveWorkout, loading, fetchWorkouts, removeWorkout }}>
       {children}
     </WorkoutContext.Provider>
   );

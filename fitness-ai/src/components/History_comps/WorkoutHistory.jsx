@@ -3,7 +3,7 @@ import { FaClock, FaCalendar, FaTrashAlt, FaAngleDown, FaAngleUp } from 'react-i
 import { WorkoutContext } from '../LogWorkout_comps/WorkoutContext'
 import ShowWorkout from './ShowWorkout'
 
-function WorkoutHistory({ searchTerm }) {
+function WorkoutHistory({ searchTerm, showNotes }) {
     const { workouts, removeWorkout } = useContext(WorkoutContext);
     const [expandedWorkouts, setExpandedWorkouts] = useState({});
 
@@ -37,7 +37,7 @@ function WorkoutHistory({ searchTerm }) {
   return (
     <div className='space-y-4 pb-12'>
         {filteredWorkouts.map(workout => (
-            <div key={workout.id} className='Workout-history-card    border rounded-md pb-8 bg-white'>
+            <div key={workout.id} className='Workout-history-card border rounded-md pb-8 bg-white'>
                 <div className='pl-5 pr-5'>
                     <div className='flex justify-between'>
                         <h1 className='text-2xl font-semibold pt-5'>{workout.title}</h1>
@@ -50,19 +50,23 @@ function WorkoutHistory({ searchTerm }) {
                             </button>
                         </div>
                     </div>
-                    <div className='Date-and-duration   flex gap-5 text-sm text-gray-500'>
-
-                        <div className='Date    flex gap-1'>
+                    <div className='Date-and-duration flex gap-5 text-sm text-gray-500'>
+                        <div className='Date flex gap-1'>
                             <FaCalendar className='text-sm m-auto'/>
                             <h6>{new Date(workout.date).toLocaleDateString()}</h6>
                         </div>
-                        <div className='Duration    flex gap-1'>
+                        <div className='Duration flex gap-1'>
                             <FaClock className='text-sm mt-1'/>
                             <h6>{workout.duration} min</h6>
                         </div>
                     </div>
-
-                    <div className='Exercise-numbers    pt-6'>
+                    {showNotes && workout.notes && (
+                        <div className='pt-2 pb-2'>
+                            <span className='text-gray-600 text-sm font-semibold'>Notes: </span>
+                            <span className='text-gray-700 text-sm'>{workout.notes}</span>
+                        </div>
+                    )}
+                    <div className='Exercise-numbers pt-6'>
                         <div className='grid grid-cols-4 gap-x-72 text-sm text-gray-500'>
                             <h6>Exercises</h6>
                             <h6>Sets</h6>
@@ -84,8 +88,6 @@ function WorkoutHistory({ searchTerm }) {
                             </div>
                         </div>
                     </div>
-
-                    {/* Show exercise and amount of workout done */}
                     {expandedWorkouts[workout.id] && workout.exercises.map(exercise => (
                         <ShowWorkout
                             key={exercise.id}
@@ -95,7 +97,6 @@ function WorkoutHistory({ searchTerm }) {
                 </div>
             </div> 
         ))}
-        
     </div>
   );
 }

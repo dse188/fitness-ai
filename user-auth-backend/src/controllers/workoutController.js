@@ -20,3 +20,19 @@ export const getUserWorkouts = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch workouts', error: err.message });
   }
 };
+
+export const deleteWorkout = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const workoutId = req.params.id;
+    console.log('Trying to delete workout:', workoutId, 'for user:', userId); // Add this line
+    const deleted = await Workout.destroy({ where: { id: workoutId, userId } });
+    if (deleted) {
+      res.json({ success: true });
+    } else {
+      res.status(404).json({ message: 'Workout not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete workout', error: err.message });
+  }
+};

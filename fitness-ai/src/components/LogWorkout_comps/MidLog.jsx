@@ -87,7 +87,7 @@ function MidLog() {
     };
 
     const success = await saveWorkout(newWorkout);
-    setMessage(success ? 'Workout saved!' : 'Failed to save workout');
+    setMessage(success ? '' : 'Failed to save workout');
 
     // Reset the form
     setWorkout([]);

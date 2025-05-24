@@ -77,7 +77,7 @@ function DashboardContents() {
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 p-1 mt-4 bg-zinc-100 rounded-md'>
           <button
             className={`flex gap-2 justify-center text-gray-500 hover:bg-white hover:shadow-sm hover:rounded-md hover:text-black ${
-              view === 'overview' ? 'bg-white shadow-sm text-black' : ''
+              view === 'overview' ? 'bg-white shadow-sm text-black rounded-md' : ''
             }`}
             onClick={() => setView('overview')}
           >
@@ -86,7 +86,7 @@ function DashboardContents() {
           </button>
           <button
             className={`flex gap-2 justify-center text-gray-500 hover:bg-white hover:shadow-sm hover:rounded-md hover:text-black ${
-              view === 'progress' ? 'bg-white shadow-sm text-black' : ''
+              view === 'progress' ? 'bg-white shadow-sm text-black rounded-md' : ''
             }`}
             onClick={() => setView('progress')}
           >

@@ -44,7 +44,7 @@ function LoginForm({ onSuccess }) {
       </div>
       
       <button type='submit' className='w-full text-black border p-1 rounded-md hover:bg-sky-300'>Login</button>
-      {error && <div className='text-black'>{error}</div>}
+      {error && <div className='text-red-500 font-semibold'>{error}</div>}
     </form>
   )
 }
