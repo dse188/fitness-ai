@@ -14,7 +14,7 @@ function LoginForm({ onSuccess }) {
     // Perform login logic here
     try {
       // Simulate a login request
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch('https://fitlog-eice.onrender.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -14,7 +14,7 @@ export function WorkoutProvider({ children }) {
     setLoading(true);
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://localhost:5000/api/workouts', {
+      const res = await fetch('https://fitlog-eice.onrender.com/api/workouts', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -30,7 +30,7 @@ export function WorkoutProvider({ children }) {
   const saveWorkout = async (workout) => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://localhost:5000/api/workouts', {
+      const res = await fetch('https://fitlog-eice.onrender.com/api/workouts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export function WorkoutProvider({ children }) {
   const removeWorkout = async (id) => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`http://localhost:5000/api/workouts/${id}`, {
+      const res = await fetch(`https://fitlog-eice.onrender.com/api/workouts/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
